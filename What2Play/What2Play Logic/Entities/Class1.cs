@@ -1,4 +1,4 @@
-﻿namespace What2Play_Logic
+﻿namespace What2Play_Logic.Entities
 {
     public class Class1
     {
