@@ -7,4 +7,13 @@
     <RootNamespace>What2Play_Presentation</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\What2Play Data\What2Play Data.csproj" />
+    <ProjectReference Include="..\What2Play Logic\What2Play Logic.csproj" />
+  </ItemGroup>
+
 </Project>
