@@ -1,5 +1,4 @@
 using What2Play_Logic.Interfaces;
-using What2Play_Logic.Services;
 using What2Play_Data.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,10 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-builder.Services.AddScoped<IGameRepository>(sp =>
-    new GameRepository(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddScoped<IGameService, GameService>();
+builder.Services.AddScoped<IGameRepo, GameRepo>();
 
 var app = builder.Build();
 
