@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using What2Play_Logic.Interfaces;
 using What2Play_Logic.Entities;
 using What2Play_Logic.Services;
-using What2Play_Data.Repository;
 
 namespace What2Play_Presentation.Pages
 {
