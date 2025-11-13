@@ -1,12 +1,81 @@
 ﻿@page
-@model IndexModel
-@{
-    ViewData["Title"] = "Home page";
+@model What2Play_Presentation.Pages.IndexModel
+
+<h2>Games</h2>
+
+@if (Model.Games != null && Model.Games.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Source</th>
+                <th>Played</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var game in Model.Games)
+            {
+                <tr>
+                    <td>@game.Title</td>
+                    <td>@game.Description</td>
+                    <td>@game.Type</td>
+                    <td>@game.Source</td>
+                    <td>@(game.Played ? "Yes" : "No")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No games found.</p>
 }
 
+<hr />
 
-@foreach (var game in Model.Games)
+<h3>Add a New Game</h3>
+
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="NewGame.Title" class="form-label">Title</label>
+        <input asp-for="NewGame.Title" class="form-control" />
+        <span asp-validation-for="NewGame.Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="NewGame.Description" class="form-label">Description</label>
+        <textarea asp-for="NewGame.Description" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="NewGame.Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="NewGame.Type" class="form-label">Type</label>
+        <input asp-for="NewGame.Type" class="form-control" />
+        <span asp-validation-for="NewGame.Type" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="NewGame.Source" class="form-label">Source</label>
+        <input asp-for="NewGame.Source" class="form-control" />
+        <span asp-validation-for="NewGame.Source" class="text-danger"></span>
+    </div>
+
+    <div class="form-check mb-3">
+        <input asp-for="NewGame.Played" class="form-check-input" />
+        <label asp-for="NewGame.Played" class="form-check-label">Played</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Game</button>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.Message))
 {
-    <h2>@game.Title</h2>
-    <p>@game.Description</p>
+    <div class="alert alert-info mt-3">@Model.Message</div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }
