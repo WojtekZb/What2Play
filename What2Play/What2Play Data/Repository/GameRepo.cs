@@ -20,7 +20,10 @@ namespace What2Play_Data.Repository
 
         public async Task<List<Game>> GetGames()
         {
-            string sql = "SELECT [Name], [Description] FROM Game;";
+            string sql = @"SELECT g.name, g.description, gt.type AS type, gs.source AS source, g.played 
+                           FROM Game g 
+                           JOIN GameType gt ON g.TypeId = gt.TypeId 
+                           JOIN GameSource gs ON g.SourceId = gs.SourceId;";
             await using var conn = new SqlConnection(_connectionstring);
             SqlCommand cmd = new SqlCommand(sql, conn);
             conn.Open();
@@ -28,6 +31,9 @@ namespace What2Play_Data.Repository
             SqlDataReader reader = cmd.ExecuteReader();
             string Title = "";
             string Description = "";
+            string Type = "";
+            string Source = "";
+            bool Played;
 
             GameList = new List<Game>();
 
@@ -36,7 +42,10 @@ namespace What2Play_Data.Repository
                 Game game = new Game
                 {
                     Title = reader[0].ToString(),
-                    Description = reader[1].ToString()
+                    Description = reader[1].ToString(),
+                    Type = reader[2].ToString(),
+                    Source = reader[3].ToString(),
+                    Played = Convert.ToBoolean(reader[4])
                 };
                 GameList.Add(game);
 

@@ -34,12 +34,11 @@ namespace What2Play_Presentation.Pages
             if (!ModelState.IsValid)
             {
                 Message = "Please fill in all required fields correctly.";
-                Games = await _gameService.GetGames(); // reload existing games
                 return Page();
             }
 
             Message = await _addGameService.AddGame(NewGame);
-            Games = await _gameService.GetGames(); // refresh list after adding
+            Games = await _gameService.GetGames();
             return Page();
         }
     }

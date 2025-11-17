@@ -14,37 +14,54 @@ namespace What2Play_Logic.Services
 
         public async Task<string> AddGame(Game game)
         {
-            try
+            //if (game == null)
+            //{
+            //    return "Game can't be empty";
+            //}
+            //if (game.Title == null)
+            //{
+            //    return "Game Title can't be empty";
+            //}
+            //if (game.Description == null)
+            //{
+            //    return "Game Description can't be empty";
+            //}
+            //if (game.Type == null)
+            //{
+            //    return "Game Type can't be empty";
+            //}
+            //if (game.Source == null)
+            //{
+            //    return "Game Source can't be empty";
+            //}
+            //else
+            //{
+            //    string result = await _repo.AddGame(game);
+            //    return result;
+            //}
+            switch (game)
             {
-                // basic null check
-                if (game == null)
-                    throw new ArgumentNullException(nameof(game), "Game cannot be null.");
+                case null:
+                    return "Game can't be null";
 
-                // simple validation checks
-                if (string.IsNullOrWhiteSpace(game.Title))
-                    throw new ArgumentException("Game title is required.");
+                case { Title: null }:
+                    return "Game title can't be null";
 
-                // call repo
-                string result = await _repo.AddGame(game);
+                case { Description: null }:
+                    return "Game description can't be null";
 
-                // optional: check repo’s response
-                if (result.Contains("success", StringComparison.OrdinalIgnoreCase))
+                case { Type: null }:
+                    return "Game type can't be null";
+
+                case { Source: null }:
+                    return "Game source can't be null";
+
+                default:
+                    string result = await _repo.AddGame(game);
                     return result;
-                else
-                    return "Failed to add the game (repository did not confirm success).";
             }
-            catch (ArgumentNullException ex)
-            {
-                return $"Invalid input: {ex.Message}";
-            }
-            catch (ArgumentException ex)
-            {
-                return $"Validation error: {ex.Message}";
-            }
-            catch (Exception ex)
-            {
-                return $"Unexpected error while adding game: {ex.Message}";
-            }
+
+
         }
     }
 }
