@@ -3,11 +3,11 @@ using What2Play_Logic.Entities;
 
 namespace What2Play_Logic.Services
 {
-    public class GameService
+    public class GetGameService
     {
-        private readonly IGameRepo _repo;
+        private readonly IGetGameRepo _repo;
 
-        public GameService(IGameRepo repo)
+        public GetGameService(IGetGameRepo repo)
         {
             _repo = repo;
         }

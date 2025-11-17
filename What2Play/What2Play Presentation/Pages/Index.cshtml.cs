@@ -9,7 +9,7 @@ namespace What2Play_Presentation.Pages
     public class IndexModel : PageModel
     {
         private readonly AddGameService _addGameService;
-        private readonly GameService _gameService;
+        private readonly GetGameService _gameService;
 
         public List<Game> Games { get; set; } = new();
         [BindProperty]
@@ -19,8 +19,8 @@ namespace What2Play_Presentation.Pages
         public IndexModel(IConfiguration config)
         {
             // Set up your services manually here (no DI container needed)
-            var repo = new GameRepo(config);
-            _gameService = new GameService(repo);
+            var repo = new GetGameRepo(config);
+            _gameService = new GetGameService(repo);
             _addGameService = new AddGameService(new AddGameRepo(config));
         }
 

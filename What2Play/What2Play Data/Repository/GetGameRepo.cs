@@ -6,11 +6,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace What2Play_Data.Repository
 {
-    public class GameRepo : IGameRepo
+    public class GetGameRepo : IGetGameRepo
     {
         private readonly string _connectionstring;
 
-        public GameRepo(IConfiguration conn)
+        public GetGameRepo(IConfiguration conn)
         {
             _connectionstring = conn.GetConnectionString("DefaultConnection") ??
                 throw new InvalidOperationException("Connection string not found.");

@@ -2,7 +2,7 @@
 
 namespace What2Play_Logic.Interfaces
 {
-    public interface IGameRepo
+    public interface IGetGameRepo
     {
         Task<List<Game>> GetGames();
     }
