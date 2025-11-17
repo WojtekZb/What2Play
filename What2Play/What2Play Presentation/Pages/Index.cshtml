@@ -1,5 +1,5 @@
 ﻿@page
-@model What2Play_Presentation.Pages.IndexModel
+@model What2Play_Presentation.Pages.HomeModel
 
 <h2>Games</h2>
 
@@ -52,8 +52,22 @@ else
     </div>
 
     <div class="mb-3">
-        <label asp-for="NewGame.Type" class="form-label">Type</label>
-        <input asp-for="NewGame.Type" class="form-control" />
+        <label class="form-label">Type</label>
+        <div>
+            @foreach (var type in Model.TypeList)
+            {
+                <div class="form-check">
+                    <input type="radio"
+                           asp-for="NewGame.Type"
+                           value="@type.TypeId"
+                           class="form-check-input"
+                           id="type_@type.TypeId" />
+                    <label class="form-check-label" for="type_@type.TypeId">
+                        @type.TypeName
+                    </label>
+                </div>
+            }
+        </div>
         <span asp-validation-for="NewGame.Type" class="text-danger"></span>
     </div>
 
