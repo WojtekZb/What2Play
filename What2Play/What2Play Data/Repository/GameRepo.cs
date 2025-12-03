@@ -3,20 +3,53 @@ using Microsoft.Extensions.Configuration;
 using What2Play_Logic.Entities;
 using What2Play_Logic.Interfaces;
 
-
 namespace What2Play_Data.Repository
 {
-    public class AddGameRepo : IAddGameRepo
+    public class GameRepo : IGameRepo
     {
         private readonly string _connectionstring;
 
-        public AddGameRepo(IConfiguration conn)
+        public GameRepo(IConfiguration conn)
         {
             _connectionstring = conn.GetConnectionString("DefaultConnection") ??
                 throw new InvalidOperationException("Connection string not found.");
         }
+        public List<GameDTO> GameList { get; set; }
 
-        public async Task<string> AddGame(Game game)
+
+        public async Task<List<GameDTO>> GetGames()
+        {
+            string sql = @"SELECT g.name, g.description, gt.type AS type
+                           FROM Game g 
+                           JOIN GameType gt ON g.TypeId = gt.TypeId";
+            await using var conn = new SqlConnection(_connectionstring);
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            conn.Open();
+
+            SqlDataReader reader = cmd.ExecuteReader();
+            string Title = "";
+            string Description = "";
+            string Type = "";
+
+            GameList = new List<GameDTO>();
+
+            while (reader.Read())
+            {
+                GameDTO game = new GameDTO
+                {
+                    Title = reader[0].ToString(),
+                    Description = reader[1].ToString(),
+                    Type = reader[2].ToString()
+                };
+                GameList.Add(game);
+
+            }
+            conn.Close();
+
+            return GameList;
+        }
+
+        public async Task<string> AddGame(GameDTO game)
         {
             await using var conn = new SqlConnection(_connectionstring);
             await conn.OpenAsync();

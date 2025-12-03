@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using What2Play_Logic.Entities;
 using What2Play_Logic.Services;
 using What2Play_Data.Repository;
+using What2Play_Presentation.ViewModels;
 
 namespace What2Play_Presentation.Pages
 {
@@ -23,18 +24,26 @@ namespace What2Play_Presentation.Pages
         public HomeModel(IConfiguration config)
         {
             // Set up your services manually here (no DI container needed)
-            var getGameRepo = new GetGameRepo(config);
+            var getGameRepo = new GameRepo(config);
             var addGameRepo = new AddGameRepo(config);
             var getTypesRepo = new GetTypesRepo(config); // <-- you need this
 
-            _getGameService = new GetGameService(getGameRepo);
+            _GameService = new GameService(GameRepo);
             _addGameService = new AddGameService(addGameRepo);
             _getTypesService = new GetTypesService(getTypesRepo); // <-- initialize here
         }
 
         public async Task OnGet()
         {
-            Games = await _getGameService.GetGames();
+            Games = await _GameService.GetGames();
+            List<ViewModels.GameVM> gameVMs = new List<ViewModels.GameVM>();
+            foreach (Game g in Games)
+            {
+                GameVM newGame = new GameVM();
+                newGame.Name = g.Title;
+                gameVMs.Add(newGame);
+            }
+
             TypeList = await _getTypesService.GetTypes();
         }
 
