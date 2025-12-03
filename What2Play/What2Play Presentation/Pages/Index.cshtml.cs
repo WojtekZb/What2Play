@@ -4,17 +4,18 @@ using What2Play_Logic.Entities;
 using What2Play_Logic.Services;
 using What2Play_Data.Repository;
 using What2Play_Presentation.ViewModels;
+using What2Play_Presentation.Mappers;
 
 namespace What2Play_Presentation.Pages
 {
     public class HomeModel : PageModel
     {
-        private readonly AddGameService _addGameService;
-        private readonly GetGameService _getGameService;
+        private readonly GameService _GameService;
         private readonly GetTypesService _getTypesService;
 
-        public List<Game> Games { get; set; } = new();
-        public List<GameType> TypeList { get; set; } = new();
+        public List<Game> Games { get; set; }
+        public List<GameVM> GameVMList { get; set; }
+        public List<GameType> TypeList { get; set; }
 
         [BindProperty]
         public Game NewGame { get; set; } = new();
@@ -23,25 +24,22 @@ namespace What2Play_Presentation.Pages
 
         public HomeModel(IConfiguration config)
         {
-            // Set up your services manually here (no DI container needed)
-            var getGameRepo = new GameRepo(config);
-            var addGameRepo = new AddGameRepo(config);
-            var getTypesRepo = new GetTypesRepo(config); // <-- you need this
+            var GameRepo = new GameRepo(config);
+            var getTypesRepo = new GetTypesRepo(config);
 
             _GameService = new GameService(GameRepo);
-            _addGameService = new AddGameService(addGameRepo);
-            _getTypesService = new GetTypesService(getTypesRepo); // <-- initialize here
+            _getTypesService = new GetTypesService(getTypesRepo);
         }
 
         public async Task OnGet()
         {
+            var gameVMList = new List<GameVM>();
             Games = await _GameService.GetGames();
-            List<ViewModels.GameVM> gameVMs = new List<ViewModels.GameVM>();
-            foreach (Game g in Games)
+
+            foreach (Game game in Games)
             {
-                GameVM newGame = new GameVM();
-                newGame.Name = g.Title;
-                gameVMs.Add(newGame);
+                GameVM gameVM = Presentation_EntityMapper.EntityToVm(game);
+                gameVMList.Add(gameVM);
             }
 
             TypeList = await _getTypesService.GetTypes();
@@ -55,8 +53,8 @@ namespace What2Play_Presentation.Pages
                 return Page();
             }
 
-            Message = await _addGameService.AddGame(NewGame);
-            Games = await _getGameService.GetGames();
+            Message = await _GameService.AddGame(NewGame);
+            Games = await _GameService.GetGames();
             TypeList = await _getTypesService.GetTypes(); // refresh types too
             return Page();
         }

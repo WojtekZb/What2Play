@@ -6,8 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-builder.Services.AddScoped<IGetGameRepo, GetGameRepo>();
-builder.Services.AddScoped<IAddGameRepo, AddGameRepo>();
+builder.Services.AddScoped<IGameRepo, GameRepo>();
 
 var app = builder.Build();
 

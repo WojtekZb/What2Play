@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using What2Play_Logic.Entities;
 using What2Play_Logic.Interfaces;
+using What2Play_Data.Mappers;
 
 namespace What2Play_Data.Repository
 {
@@ -14,45 +15,52 @@ namespace What2Play_Data.Repository
             _connectionstring = conn.GetConnectionString("DefaultConnection") ??
                 throw new InvalidOperationException("Connection string not found.");
         }
-        public List<GameDTO> GameList { get; set; }
+        public List<GameDTO> GameDTOList { get; set; }
+        public List<Game> GameList { get; set; }
 
-
-        public async Task<List<GameDTO>> GetGames()
+        public async Task<List<Game>> GetGames()
         {
             string sql = @"SELECT g.name, g.description, gt.type AS type
-                           FROM Game g 
-                           JOIN GameType gt ON g.TypeId = gt.TypeId";
+                   FROM Game g 
+                   JOIN GameType gt ON g.TypeId = gt.TypeId";
+
             await using var conn = new SqlConnection(_connectionstring);
-            SqlCommand cmd = new SqlCommand(sql, conn);
-            conn.Open();
+            await conn.OpenAsync();
 
-            SqlDataReader reader = cmd.ExecuteReader();
-            string Title = "";
-            string Description = "";
-            string Type = "";
+            using var cmd = new SqlCommand(sql, conn);
+            using var reader = await cmd.ExecuteReaderAsync();
 
-            GameList = new List<GameDTO>();
+            var gameDTOList = new List<GameDTO>();
+            var gameList = new List<Game>();
 
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
-                GameDTO game = new GameDTO
+                var game = new GameDTO
                 {
                     Title = reader[0].ToString(),
                     Description = reader[1].ToString(),
                     Type = reader[2].ToString()
                 };
-                GameList.Add(game);
-
+                gameDTOList.Add(game);
             }
-            conn.Close();
 
-            return GameList;
+            foreach (var game in gameDTOList)
+            {
+                var gameE = Data_EntityMapper.DtoToEntity(game);
+                if (gameE != null)
+                    gameList.Add(gameE);
+            }
+
+            return gameList;
         }
 
-        public async Task<string> AddGame(GameDTO game)
+
+        public async Task<string> AddGame(Game gameE)
         {
             await using var conn = new SqlConnection(_connectionstring);
             await conn.OpenAsync();
+
+            GameDTO game = Data_EntityMapper.EntityToDto(gameE);  
 
             string query = @"
                 INSERT INTO Game (Name, Description, TypeId, SourceId, Played)
