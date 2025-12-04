@@ -1,5 +1,7 @@
 ﻿using What2Play_Logic.Interfaces;
 using What2Play_Logic.Entities;
+using What2Play_Logic.DTOs;
+using What2Play_Logic.Mappers;
 
 namespace What2Play_Logic.Services
 {
@@ -12,10 +14,19 @@ namespace What2Play_Logic.Services
             _repo = repo;
         }
 
-        public Task<List<Game>> GetGames()
+        List<Game> games = new List<Game>();
+
+        public async Task<List<Game>> GetGames()
         {
-            return _repo.GetGames();
+            var gameDtos = await _repo.GetGames();
+            var games = new List<Game>();
+            foreach (GameDTO g in gameDtos)
+            {
+                games.Add(Mapper.DtoToEntity(g));
+            }
+            return games;
         }
+
 
         public async Task<string> AddGame(Game game)
         {
@@ -37,7 +48,8 @@ namespace What2Play_Logic.Services
                     return "Game source can't be null";
 
                 default:
-                    string result = await _repo.AddGame(game);
+                    var gameDto = Mapper.EntityToDto(game);
+                    string result = await _repo.AddGame(gameDto);
                     return result;
             }
         }

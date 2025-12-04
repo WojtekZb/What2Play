@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using What2Play_Logic.DTOs;
 using What2Play_Logic.Entities;
 
-namespace What2Play_Data.Mappers
+namespace What2Play_Logic.Mappers
 {
-    public class Data_EntityMapper
+    public class Mapper
     {
-        public static Game DtoToEntity (GameDTO gameDTO)
+        internal static Game DtoToEntity(GameDTO gameDTO)
         {
             return new Game
             {
@@ -20,8 +16,8 @@ namespace What2Play_Data.Mappers
                 Played = gameDTO.Played
             };
         }
-        
-        public static GameDTO EntityToDto (Game game)
+
+        public static GameDTO EntityToDto(Game game)
         {
             return new GameDTO
             {
@@ -32,5 +28,6 @@ namespace What2Play_Data.Mappers
                 Played = game.Played
             };
         }
+
     }
 }

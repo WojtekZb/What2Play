@@ -1,8 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using What2Play_Logic.Entities;
 using What2Play_Logic.Interfaces;
-using What2Play_Data.Mappers;
+using What2Play_Logic.DTOs;
 
 namespace What2Play_Data.Repository
 {
@@ -16,9 +15,8 @@ namespace What2Play_Data.Repository
                 throw new InvalidOperationException("Connection string not found.");
         }
         public List<GameDTO> GameDTOList { get; set; }
-        public List<Game> GameList { get; set; }
 
-        public async Task<List<Game>> GetGames()
+        public async Task<List<GameDTO>> GetGames()
         {
             string sql = @"SELECT g.name, g.description, gt.type AS type
                    FROM Game g 
@@ -30,8 +28,7 @@ namespace What2Play_Data.Repository
             using var cmd = new SqlCommand(sql, conn);
             using var reader = await cmd.ExecuteReaderAsync();
 
-            var gameDTOList = new List<GameDTO>();
-            var gameList = new List<Game>();
+            var gameList = new List<GameDTO>();
 
             while (await reader.ReadAsync())
             {
@@ -41,26 +38,17 @@ namespace What2Play_Data.Repository
                     Description = reader[1].ToString(),
                     Type = reader[2].ToString()
                 };
-                gameDTOList.Add(game);
-            }
-
-            foreach (var game in gameDTOList)
-            {
-                var gameE = Data_EntityMapper.DtoToEntity(game);
-                if (gameE != null)
-                    gameList.Add(gameE);
+                gameList.Add(game);
             }
 
             return gameList;
         }
 
 
-        public async Task<string> AddGame(Game gameE)
+        public async Task<string> AddGame(GameDTO game)
         {
             await using var conn = new SqlConnection(_connectionstring);
-            await conn.OpenAsync();
-
-            GameDTO game = Data_EntityMapper.EntityToDto(gameE);  
+            await conn.OpenAsync();  
 
             string query = @"
                 INSERT INTO Game (Name, Description, TypeId, SourceId, Played)

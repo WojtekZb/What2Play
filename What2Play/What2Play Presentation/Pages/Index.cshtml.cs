@@ -4,7 +4,6 @@ using What2Play_Logic.Entities;
 using What2Play_Logic.Services;
 using What2Play_Data.Repository;
 using What2Play_Presentation.ViewModels;
-using What2Play_Presentation.Mappers;
 
 namespace What2Play_Presentation.Pages
 {
