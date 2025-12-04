@@ -18,10 +18,13 @@ namespace What2Play_Data.Repository
 
         public async Task<List<GameDTO>> GetGames()
         {
-            string sql = @"SELECT g.name, g.description, gt.type AS type
-                   FROM Game g 
-                   JOIN GameType gt ON g.TypeId = gt.TypeId";
-
+            string sql = @"SELECT g.[Name],
+                           g.[Description],
+                           t.[Type] AS type
+                           FROM UserGame ug
+                           JOIN Game g ON ug.GameId = g.GameId
+                           JOIN GameType t ON g.TypeId = t.TypeId
+                           WHERE ug.UserId = 1;";
             await using var conn = new SqlConnection(_connectionstring);
             await conn.OpenAsync();
 
@@ -51,16 +54,17 @@ namespace What2Play_Data.Repository
             await conn.OpenAsync();  
 
             string query = @"
-                INSERT INTO Game (Name, Description, TypeId, SourceId, Played)
-                VALUES (@Title, @Description, @Type, @Source, @Played);";
+                INSERT INTO Game (Name, Description, TypeId)
+                VALUES (@Title, @Description, @Type);
+
+                INSERT INTO UserGame (UserId, GameId)
+                VALUES (1, SCOPE_IDENTITY());";
 
             await using (var cmd = new SqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@Title", game.Title);
                 cmd.Parameters.AddWithValue("@Description", game.Description);
                 cmd.Parameters.AddWithValue("@Type", game.Type);
-                cmd.Parameters.AddWithValue("@Source", game.Source);
-                cmd.Parameters.AddWithValue("@Played", game.Played);
 
                 int rowsAffected = await cmd.ExecuteNonQueryAsync();
                 if (rowsAffected > 0)
