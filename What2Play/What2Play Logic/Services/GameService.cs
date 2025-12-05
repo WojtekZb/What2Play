@@ -14,43 +14,36 @@ namespace What2Play_Logic.Services
             _repo = repo;
         }
 
-        List<Game> games = new List<Game>();
-
-        public async Task<List<Game>> GetGames()
+        public Task<List<GameDTO>> GetGames()
         {
-            var gameDtos = await _repo.GetGames();
-            var games = new List<Game>();
-            foreach (GameDTO g in gameDtos)
-            {
-                games.Add(Mapper.DtoToEntity(g));
-            }
-            return games;
+            return _repo.GetGames();
         }
 
 
-        public async Task<string> AddGame(Game game)
+        public async Task<string> AddGame(GameDTO game)
         {
-            switch (game)
+            Game gameEntity = Mapper.DtoToEntity(game);            
+            switch (gameEntity)
             {
-                case null:
-                    return "Game can't be null";
+            case null:
+                return "Game can't be null";
 
-                case { Title: null }:
-                    return "Game title can't be null";
+            case { Title: null }:
+                return "Game title can't be null";
 
-                case { Description: null }:
-                    return "Game description can't be null";
+            case { Description: null }:
+                return "Game description can't be null";
 
-                case { Type: null }:
-                    return "Game type can't be null";
+            case { Type: null }:
+                return "Game type can't be null";
 
-                case { Source: null }:
-                    return "Game source can't be null";
+            case { Source: null }:
+                return "Game source can't be null";
 
-                default:
-                    var gameDto = Mapper.EntityToDto(game);
-                    string result = await _repo.AddGame(gameDto);
-                    return result;
+            default:
+                var gameDto = Mapper.EntityToDto(gameEntity);
+                string result = await _repo.AddGame(gameDto);
+                return result;
             }
         }
     }

@@ -1,13 +1,13 @@
-﻿using What2Play_Logic.Entities;
+﻿using What2Play_Logic.DTOs;
 using What2Play_Presentation.ViewModels;
 
 namespace What2Play_Presentation.Mappers
 {
-    public class Presentation_EntityMapper
+    public class Mapper
     {
-        public static Game VmToEntity(GameVM gameVM)
+        public static GameDTO VmToDto(GameVM gameVM)
         {
-            return new Game
+            return new GameDTO
             {
                 Title = gameVM.Title,
                 Description = gameVM.Description,
@@ -17,7 +17,7 @@ namespace What2Play_Presentation.Mappers
             };
         }
 
-        public static GameVM EntityToVm(Game game)
+        public static GameVM DtoToVm(GameDTO game)
         {
             return new GameVM
             {

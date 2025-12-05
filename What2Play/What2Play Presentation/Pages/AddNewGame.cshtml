@@ -1,0 +1,59 @@
+﻿@page
+@model AddNewGameModel
+@{
+    ViewData["Title"] = "Add New Game";
+}
+<h1>@ViewData["Title"]</h1>
+
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="NewGame.Title" class="form-label">Title</label>
+        <input asp-for="NewGame.Title" class="form-control" />
+        <span asp-validation-for="NewGame.Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="NewGame.Description" class="form-label">Description</label>
+        <textarea asp-for="NewGame.Description" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="NewGame.Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Type</label>
+        <div>
+            @foreach (var type in Model.TypeList)
+            {
+                <div class="form-check">
+                    <input type="radio"
+                           asp-for="NewGame.Type"
+                           value="@type.TypeId"
+                           class="form-check-input"
+                           id="type_@type.TypeId" />
+                    <label class="form-check-label" for="type_@type.TypeId">
+                        @type.TypeName
+                    </label>
+                </div>
+            }
+        </div>
+        <span asp-validation-for="NewGame.Type" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="NewGame.Source" class="form-label">Source</label>
+        <input asp-for="NewGame.Source" class="form-control" />
+        <span asp-validation-for="NewGame.Source" class="text-danger"></span>
+    </div>
+
+    <div class="form-check mb-3">
+        <input asp-for="NewGame.Played" class="form-check-input" />
+        <label asp-for="NewGame.Played" class="form-check-label">Played</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Game</button>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+    <div class="alert alert-info mt-3">@Model.Message</div>
+}
+

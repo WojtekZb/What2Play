@@ -1,9 +1,9 @@
-﻿using What2Play_Logic.Entities;
+﻿using What2Play_Logic.DTOs;
 
 namespace What2Play_Logic.Interfaces
 {
     public interface IGetTypesRepo
     {
-        Task<List<GameType>> GetTypes();
+        Task<List<GameTypeDTO>> GetTypes();
     }
 }

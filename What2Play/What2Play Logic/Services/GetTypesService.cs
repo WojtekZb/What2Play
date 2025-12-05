@@ -1,4 +1,4 @@
-﻿using What2Play_Logic.Entities;
+﻿using What2Play_Logic.DTOs;
 using What2Play_Logic.Interfaces;
 
 namespace What2Play_Logic.Services
@@ -11,7 +11,7 @@ namespace What2Play_Logic.Services
         {
             _repo = repo;
         }
-        public Task<List<GameType>> GetTypes()
+        public Task<List<GameTypeDTO>> GetTypes()
         {
             return _repo.GetTypes();
         }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using What2Play_Logic.Entities;
+using What2Play_Logic.DTOs;
 using What2Play_Logic.Interfaces;
 
 namespace What2Play_Data.Repository
@@ -14,10 +14,10 @@ namespace What2Play_Data.Repository
             _connectionstring = conn.GetConnectionString("DefaultConnection") ??
                 throw new InvalidOperationException("Connection string not found.");
         }
-        public List<GameType> TypeList { get; set; }
+        public List<GameTypeDTO> TypeList { get; set; }
 
 
-        public async Task<List<GameType>> GetTypes()
+        public async Task<List<GameTypeDTO>> GetTypes()
         {
             string sql = @"SELECT TypeId, Type FROM GameType";
             await using var conn = new SqlConnection(_connectionstring);
@@ -26,11 +26,11 @@ namespace What2Play_Data.Repository
             using var cmd = new SqlCommand(sql, conn);
             using var reader = await cmd.ExecuteReaderAsync();
 
-            var typeList = new List<GameType>();
+            var typeList = new List<GameTypeDTO>();
 
             while (await reader.ReadAsync())
             {
-                var gameType = new GameType
+                var gameType = new GameTypeDTO
                 {
                     TypeId = Convert.ToInt32(reader["TypeId"]),
                     TypeName = reader["Type"].ToString()

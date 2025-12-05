@@ -20,7 +20,9 @@ namespace What2Play_Data.Repository
         {
             string sql = @"SELECT g.[Name],
                            g.[Description],
-                           t.[Type] AS type
+                           t.[Type] AS type,
+                           ug.SourceId,
+                           ug.Played
                            FROM UserGame ug
                            JOIN Game g ON ug.GameId = g.GameId
                            JOIN GameType t ON g.TypeId = t.TypeId
@@ -39,7 +41,9 @@ namespace What2Play_Data.Repository
                 {
                     Title = reader[0].ToString(),
                     Description = reader[1].ToString(),
-                    Type = reader[2].ToString()
+                    Type = reader[2].ToString(),
+                    Source = reader[3].ToString(),
+                    Played = (bool)reader[4]
                 };
                 gameList.Add(game);
             }
@@ -57,14 +61,16 @@ namespace What2Play_Data.Repository
                 INSERT INTO Game (Name, Description, TypeId)
                 VALUES (@Title, @Description, @Type);
 
-                INSERT INTO UserGame (UserId, GameId)
-                VALUES (1, SCOPE_IDENTITY());";
+                INSERT INTO UserGame (UserId, GameId, SourceId, Played)
+                VALUES (1, SCOPE_IDENTITY(), @SourceId, @Played);";
 
             await using (var cmd = new SqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@Title", game.Title);
                 cmd.Parameters.AddWithValue("@Description", game.Description);
                 cmd.Parameters.AddWithValue("@Type", game.Type);
+                cmd.Parameters.AddWithValue("@SourceId", game.Source);
+                cmd.Parameters.AddWithValue("@Played", game.Played);
 
                 int rowsAffected = await cmd.ExecuteNonQueryAsync();
                 if (rowsAffected > 0)
