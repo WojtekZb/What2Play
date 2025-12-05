@@ -13,6 +13,7 @@
                 <th>Type</th>
                 <th>Source</th>
                 <th>Played</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -24,6 +25,18 @@
                     <td>@game.Type</td>
                     <td>@game.Source</td>
                     <td>@(game.Played ? "Yes" : "No")</td>
+                    <td>
+                        <!--after asp-action delete add something like asp-route-id="(at symbol)game.Id"-->
+                        <a asp-page="/GameForm" asp-route-id="@game.Id" class="btn btn-sm btn-primary">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+
+                        <form method="post" asp-route-id="@game.Id" asp-page-handler="Delete" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -33,5 +46,3 @@ else
 {
     <p>No games found.</p>
 }
-
-<hr />

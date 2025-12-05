@@ -8,7 +8,8 @@ namespace What2Play_Logic.Mappers
         internal static Game DtoToEntity(GameDTO gameDTO)
         {
             return new Game
-            {
+            {   
+                Id = gameDTO.Id,
                 Title = gameDTO.Title,
                 Description = gameDTO.Description,
                 Type = gameDTO.Type,
@@ -21,6 +22,7 @@ namespace What2Play_Logic.Mappers
         {
             return new GameDTO
             {
+                Id = game.Id,
                 Title = game.Title,
                 Description = game.Description,
                 Type = game.Type,

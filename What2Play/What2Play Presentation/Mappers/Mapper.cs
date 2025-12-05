@@ -21,6 +21,7 @@ namespace What2Play_Presentation.Mappers
         {
             return new GameVM
             {
+                Id = game.Id,
                 Title = game.Title,
                 Description = game.Description,
                 Type = game.Type,

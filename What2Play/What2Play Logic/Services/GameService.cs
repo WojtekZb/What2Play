@@ -19,6 +19,11 @@ namespace What2Play_Logic.Services
             return _repo.GetGames();
         }
 
+        public Task<GameDTO> GetGameById(int id)
+        {
+            return _repo.GetGameById(id);
+        }
+
 
         public async Task<string> AddGame(GameDTO game)
         {
@@ -45,6 +50,39 @@ namespace What2Play_Logic.Services
                 string result = await _repo.AddGame(gameDto);
                 return result;
             }
+        }
+
+        public async Task<string> UpdateGame(GameDTO game)
+        {
+            Game gameEntity = Mapper.DtoToEntity(game);
+            switch (gameEntity)
+            {
+                case null:
+                    return "Game can't be null";
+
+                case { Title: null }:
+                    return "Game title can't be null";
+
+                case { Description: null }:
+                    return "Game description can't be null";
+
+                case { Type: null }:
+                    return "Game type can't be null";
+
+                case { Source: null }:
+                    return "Game source can't be null";
+
+                default:
+                    var gameDto = Mapper.EntityToDto(gameEntity);
+                    string result = await _repo.UpdateGame(gameDto);
+                    return result;
+            }
+        }
+
+        public async Task<string> DeleteGame(int gameId)
+        {
+            string result = await _repo.DeleteGame(gameId);
+            return result;
         }
     }
 }

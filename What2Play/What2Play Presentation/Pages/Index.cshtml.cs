@@ -42,5 +42,15 @@ namespace What2Play_Presentation.Pages
                 gameVMList.Add(gameVM);
             }
         }
+
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        {
+            await _GameService.DeleteGame(id);
+
+            // Reload the game list after deletion
+            Games = await _GameService.GetGames();
+
+            return Page(); // stay on the same page
+        }
     }
 }
