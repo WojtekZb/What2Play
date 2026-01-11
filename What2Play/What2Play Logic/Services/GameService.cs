@@ -39,10 +39,10 @@ namespace What2Play_Logic.Services
             case { Description: null }:
                 return "Game description can't be null";
 
-            case { Type: null }:
+            case { TypeName: null }:
                 return "Game type can't be null";
 
-            case { Source: null }:
+            case { SourceName: null }:
                 return "Game source can't be null";
 
             default:
@@ -66,10 +66,10 @@ namespace What2Play_Logic.Services
                 case { Description: null }:
                     return "Game description can't be null";
 
-                case { Type: null }:
+                case { TypeName: null }:
                     return "Game type can't be null";
 
-                case { Source: null }:
+                case { SourceName: null }:
                     return "Game source can't be null";
 
                 default:

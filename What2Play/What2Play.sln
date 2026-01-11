@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "What2Play Presentation", "What2Play Presentation\What2Play Presentation.csproj", "{BA918F48-E136-4DEF-B0A5-0CBB67C2C5FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "What2Play Presentation", "What2Play Presentation\What2Play Presentation.csproj", "{BA918F48-E136-4DEF-B0A5-0CBB67C2C5FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "What2Play Logic", "What2Play Logic\What2Play Logic.csproj", "{AFCD1A54-4A2D-4E13-8E3C-CDA9E9367AD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "What2Play Logic", "What2Play Logic\What2Play Logic.csproj", "{AFCD1A54-4A2D-4E13-8E3C-CDA9E9367AD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "What2Play Data", "What2Play Data\What2Play Data.csproj", "{ECFC7DCF-0E02-4594-A589-903920A0E0CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "What2Play Data", "What2Play Data\What2Play Data.csproj", "{ECFC7DCF-0E02-4594-A589-903920A0E0CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using What2Play_Logic.DTOs;
-using What2Play_Logic.Entities;
 using What2Play_Logic.Interfaces;
 
 namespace What2Play_Data.Repository
@@ -45,8 +44,8 @@ namespace What2Play_Data.Repository
                     Id = (int)reader[0],
                     Title = reader[1].ToString(),
                     Description = reader[2].ToString(),
-                    Type = reader[3].ToString(),
-                    Source = reader[4].ToString(),
+                    TypeName = reader[3].ToString(),
+                    SourceName = reader[4].ToString(),
                     Played = (bool)reader[5]
                 };
                 gameList.Add(game);
@@ -85,8 +84,8 @@ namespace What2Play_Data.Repository
                     Id = (int)reader[0],
                     Title = reader[1].ToString(),
                     Description = reader[2].ToString(),
-                    Type = reader[3].ToString(),
-                    Source = reader[4].ToString(),
+                    TypeName = reader[3].ToString(),
+                    SourceName = reader[4].ToString(),
                     Played = (bool)reader[5]
                 };
             }
@@ -105,14 +104,13 @@ namespace What2Play_Data.Repository
                 VALUES (@Title, @Description, @Type);
 
                 INSERT INTO UserGame (UserId, GameId, SourceId, Played)
-                VALUES (1, SCOPE_IDENTITY(), @SourceId, @Played);";
+                VALUES (1, SCOPE_IDENTITY(), 1, @Played);";
 
             await using (var cmd = new SqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@Title", game.Title);
                 cmd.Parameters.AddWithValue("@Description", game.Description);
-                cmd.Parameters.AddWithValue("@Type", game.Type);
-                cmd.Parameters.AddWithValue("@SourceId", game.Source);
+                cmd.Parameters.AddWithValue("@Type", game.TypeId);
                 cmd.Parameters.AddWithValue("@Played", game.Played);
 
                 int rowsAffected = await cmd.ExecuteNonQueryAsync();
@@ -147,8 +145,8 @@ namespace What2Play_Data.Repository
                 cmd.Parameters.AddWithValue("@GameId", game.Id);
                 cmd.Parameters.AddWithValue("@Title", game.Title);
                 cmd.Parameters.AddWithValue("@Description", game.Description);
-                cmd.Parameters.AddWithValue("@Type", game.Type);
-                cmd.Parameters.AddWithValue("@SourceId", game.Source);
+                cmd.Parameters.AddWithValue("@Type", game.TypeId);
+                cmd.Parameters.AddWithValue("@SourceId", game.SourceId);
                 cmd.Parameters.AddWithValue("@Played", game.Played);
 
                 int rows = await cmd.ExecuteNonQueryAsync();

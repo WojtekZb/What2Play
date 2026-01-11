@@ -5,15 +5,17 @@ namespace What2Play_Logic.Mappers
 {
     public class Mapper
     {
-        internal static Game DtoToEntity(GameDTO gameDTO)
+        public static Game DtoToEntity(GameDTO gameDTO)
         {
             return new Game
             {   
                 Id = gameDTO.Id,
                 Title = gameDTO.Title,
                 Description = gameDTO.Description,
-                Type = gameDTO.Type,
-                Source = gameDTO.Source,
+                TypeId = gameDTO.TypeId,
+                TypeName = gameDTO.TypeName,
+                SourceId = gameDTO.SourceId,
+                SourceName = gameDTO.SourceName,
                 Played = gameDTO.Played
             };
         }
@@ -25,9 +27,23 @@ namespace What2Play_Logic.Mappers
                 Id = game.Id,
                 Title = game.Title,
                 Description = game.Description,
-                Type = game.Type,
-                Source = game.Source,
+                TypeId = game.TypeId,
+                TypeName = game.TypeName,
+                SourceId = game.SourceId,
+                SourceName = game.SourceName,
                 Played = game.Played
+            };
+        }
+
+        public static GameDTO SteamToDto(SteamGameDTO steamDTO)
+        {
+            return new GameDTO
+            {
+                Id = steamDTO.AppId,
+                Title = steamDTO.Name,
+                Description = steamDTO.Description,
+                SourceId = steamDTO.Source,
+                Played = steamDTO.PlaytimeRaw > 0
             };
         }
 

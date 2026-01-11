@@ -11,8 +11,8 @@ namespace What2Play_Presentation.Mappers
             {
                 Title = gameVM.Title,
                 Description = gameVM.Description,
-                Type = gameVM.Type,
-                Source = gameVM.Source,
+                TypeName = gameVM.Type,
+                SourceName = gameVM.Source,
                 Played = gameVM.Played
             };
         }
@@ -24,8 +24,8 @@ namespace What2Play_Presentation.Mappers
                 Id = game.Id,
                 Title = game.Title,
                 Description = game.Description,
-                Type = game.Type,
-                Source = game.Source,
+                Type = game.TypeName,
+                Source = game.SourceName,
                 Played = game.Played
             };
         }

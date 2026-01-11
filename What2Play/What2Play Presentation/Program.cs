@@ -18,6 +18,15 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+builder.Services.AddAuthentication("AuthCookie")
+    .AddCookie("AuthCookie", options =>
+    {
+        options.LoginPath = "/Login";
+        options.LogoutPath = "/Logout";
+    });
+
+builder.Services.AddAuthorization();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
