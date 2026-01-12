@@ -1,8 +1,11 @@
-﻿namespace What2Play_Logic.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace What2Play_Logic.DTOs
 {
     public class GameDTO
     {
         public int Id { get; set; }
+        [Required]
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public int TypeId { get; set; }

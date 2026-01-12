@@ -4,11 +4,14 @@ using System;
 namespace Unit_Tests_W2P
 {
     [TestClass]
-    public class UnitTest1
+    public class GameTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void GameCanBeAdded()
         {
+            // Arrange
+            // Act
+            // Assert
         }
     }
 }

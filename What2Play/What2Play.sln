@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "What2Play Presentation", "What2Play Presentation\What2Play Presentation.csproj", "{BA918F48-E136-4DEF-B0A5-0CBB67C2C5FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "What2Play Presentation", "What2Play Presentation\What2Play Presentation.csproj", "{BA918F48-E136-4DEF-B0A5-0CBB67C2C5FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "What2Play Logic", "What2Play Logic\What2Play Logic.csproj", "{AFCD1A54-4A2D-4E13-8E3C-CDA9E9367AD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "What2Play Logic", "What2Play Logic\What2Play Logic.csproj", "{AFCD1A54-4A2D-4E13-8E3C-CDA9E9367AD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "What2Play Data", "What2Play Data\What2Play Data.csproj", "{ECFC7DCF-0E02-4594-A589-903920A0E0CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "What2Play Data", "What2Play Data\What2Play Data.csproj", "{ECFC7DCF-0E02-4594-A589-903920A0E0CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unit Tests W2P", "Unit Tests W2P\Unit Tests W2P.csproj", "{DD3151DA-CE2D-42E6-80FF-245B2B059B26}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "What2PlayLogic.UnitTests", "What2PlayLogic.UnitTests\What2PlayLogic.UnitTests.csproj", "{42C5F64F-AE60-4C50-9498-046B779C376B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{ECFC7DCF-0E02-4594-A589-903920A0E0CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECFC7DCF-0E02-4594-A589-903920A0E0CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECFC7DCF-0E02-4594-A589-903920A0E0CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DD3151DA-CE2D-42E6-80FF-245B2B059B26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD3151DA-CE2D-42E6-80FF-245B2B059B26}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD3151DA-CE2D-42E6-80FF-245B2B059B26}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD3151DA-CE2D-42E6-80FF-245B2B059B26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42C5F64F-AE60-4C50-9498-046B779C376B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42C5F64F-AE60-4C50-9498-046B779C376B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42C5F64F-AE60-4C50-9498-046B779C376B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42C5F64F-AE60-4C50-9498-046B779C376B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
