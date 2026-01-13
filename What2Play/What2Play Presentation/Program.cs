@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IGameRepo, GameRepo>();
+builder.Services.AddScoped<IUserRepo, UserRepo>();
+
 
 var app = builder.Build();
 
@@ -31,6 +33,15 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(2);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+app.UseSession();
 
 app.UseAuthorization();
 

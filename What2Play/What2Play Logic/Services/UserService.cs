@@ -19,12 +19,17 @@ namespace What2Play_Logic.Services
 
         public async Task<User?> Login(string email, string password)
         {
-            var authUser = await _repo.GetByEmailAsync(email);
-            if (authUser == null) return null;
+            var userDto = await _repo.GetByEmailAsync(email);
+            if (userDto == null) return null;
 
-            return BCrypt.Net.BCrypt.Verify(password, authUser.hashedPassword)
-                ? new User { Id = authUser.Id, email = authUser.email }
-                : null;
+            if (!BCrypt.Net.BCrypt.Verify(password, userDto.hashedPassword))
+                return null;
+
+            return new User
+            {
+                Id = userDto.Id,
+                email = userDto.email
+            };
         }
     }
 }
