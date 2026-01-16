@@ -156,7 +156,7 @@ namespace What2Play_Data.Repository
                 int rows = await cmd.ExecuteNonQueryAsync();
 
                 if (rows > 0)
-                    return $"Game {game.Title} updated.";
+                    return $"{game.Title} updated.";
                 else
                     return "Update failed.";
             }
