@@ -17,6 +17,9 @@ public class _LoginModel : PageModel
     [BindProperty]
     public string Password { get; set; } = string.Empty;
 
+    [BindProperty]
+    public string Role {  get; set; } = string.Empty;
+
     public void OnGet()
     {
     }
@@ -33,6 +36,8 @@ public class _LoginModel : PageModel
 
         // 👇 remember user
         HttpContext.Session.SetInt32("UserId", user.Id);
+        HttpContext.Session.SetString("Role", user.role ?? "User");
+
 
         return RedirectToPage("/Index");
     }

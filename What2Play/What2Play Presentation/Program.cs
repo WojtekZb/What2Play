@@ -1,5 +1,6 @@
 using What2Play_Logic.Interfaces;
 using What2Play_Data.Repository;
+using What2Play_Logic.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +9,21 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IGameRepo, GameRepo>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
+builder.Services.AddScoped<UserService>();
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(2);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+builder.Services.AddAuthentication("AuthCookie")
+    .AddCookie("AuthCookie", options =>
+    {
+        options.LoginPath = "/_Login";
+        options.LogoutPath = "/_Logout";
+    });
 
 var app = builder.Build();
 
@@ -20,26 +35,12 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-builder.Services.AddAuthentication("AuthCookie")
-    .AddCookie("AuthCookie", options =>
-    {
-        options.LoginPath = "/Login";
-        options.LogoutPath = "/Logout";
-    });
-
 builder.Services.AddAuthorization();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromHours(2);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
 
 app.UseSession();
 

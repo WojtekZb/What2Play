@@ -36,11 +36,12 @@ namespace What2Play_Presentation.Pages
         // GET handler (supports both Add + Edit)
         public async Task OnGetAsync(int? id)
         {
+            int? userId = HttpContext.Session.GetInt32("UserId");
             TypeList = await _getTypesService.GetTypes();
 
             if (id.HasValue)
             {
-                Game = await _gameService.GetGameById(id.Value);
+                Game = await _gameService.GetGameById(id.Value, userId);
             }
             else
             {
@@ -51,6 +52,7 @@ namespace What2Play_Presentation.Pages
         // POST handler
         public async Task<IActionResult> OnPostAsync()
         {
+            int? userId = HttpContext.Session.GetInt32("UserId");
             TypeList = await _getTypesService.GetTypes(); // always load types
 
             if (!ModelState.IsValid)
@@ -61,11 +63,11 @@ namespace What2Play_Presentation.Pages
 
             if (IsEdit)
             {
-                Message = await _gameService.UpdateGame(Game);
+                Message = await _gameService.UpdateGame(Game, userId);
             }
             else
             {
-                Message = await _gameService.AddGame(Game);
+                Message = await _gameService.AddGame(Game, userId);
             }
 
             return RedirectToPage("/Index");

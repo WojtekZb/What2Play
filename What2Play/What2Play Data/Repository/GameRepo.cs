@@ -16,7 +16,7 @@ namespace What2Play_Data.Repository
         }
         public List<GameDTO> GameDTOList { get; set; }
 
-        public async Task<List<GameDTO>> GetGames()
+        public async Task<List<GameDTO>> GetGames(int? UserId)
         {
             string sql = @"SELECT 
                            g.GameId,
@@ -28,11 +28,12 @@ namespace What2Play_Data.Repository
                            FROM UserGame ug
                            JOIN Game g ON ug.GameId = g.GameId
                            JOIN GameType t ON g.TypeId = t.TypeId
-                           WHERE ug.UserId = 1;";
+                           WHERE ug.UserId = @UserId;";
             await using var conn = new SqlConnection(_connectionstring);
             await conn.OpenAsync();
 
             using var cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@UserId", UserId);
             using var reader = await cmd.ExecuteReaderAsync();
 
             var gameList = new List<GameDTO>();
@@ -54,7 +55,7 @@ namespace What2Play_Data.Repository
             return gameList;
         }
 
-        public async Task<GameDTO> GetGameById(int id)
+        public async Task<GameDTO> GetGameById(int id, int? UserId)
         {
             await using var conn = new SqlConnection(_connectionstring);
             await conn.OpenAsync();
@@ -69,11 +70,12 @@ namespace What2Play_Data.Repository
                                 ug.Played
                             FROM Game g
                             INNER JOIN UserGame ug ON g.GameId = ug.GameId
-                            WHERE g.GameId = @GameId AND ug.UserId = 1;
+                            WHERE g.GameId = @GameId AND ug.UserId = @UserId;
                         ";
 
             await using var cmd = new SqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@GameId", id);
+            cmd.Parameters.AddWithValue("@UserId", UserId);
 
             await using var reader = await cmd.ExecuteReaderAsync();
 
@@ -94,7 +96,7 @@ namespace What2Play_Data.Repository
         }
 
 
-        public async Task<string> AddGame(GameDTO game)
+        public async Task<string> AddGame(GameDTO game, int? UserId)
         {
             await using var conn = new SqlConnection(_connectionstring);
             await conn.OpenAsync();  
@@ -104,7 +106,7 @@ namespace What2Play_Data.Repository
                 VALUES (@Title, @Description, @Type);
 
                 INSERT INTO UserGame (UserId, GameId, SourceId, Played)
-                VALUES (1, SCOPE_IDENTITY(), 1, @Played);";
+                VALUES (@UserId, SCOPE_IDENTITY(), 1, @Played);";
 
             await using (var cmd = new SqlCommand(query, conn))
             {
@@ -112,6 +114,7 @@ namespace What2Play_Data.Repository
                 cmd.Parameters.AddWithValue("@Description", game.Description);
                 cmd.Parameters.AddWithValue("@Type", game.TypeId);
                 cmd.Parameters.AddWithValue("@Played", game.Played);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
 
                 int rowsAffected = await cmd.ExecuteNonQueryAsync();
                 if (rowsAffected > 0)
@@ -121,7 +124,7 @@ namespace What2Play_Data.Repository
             }
         }
 
-        public async Task<string> UpdateGame(GameDTO game)
+        public async Task<string> UpdateGame(GameDTO game, int? UserId)
         {
             await using var conn = new SqlConnection(_connectionstring);
             await conn.OpenAsync();
@@ -138,7 +141,7 @@ namespace What2Play_Data.Repository
                             SET 
                                 SourceId = @SourceId,
                                 Played = @Played
-                            WHERE GameId = @GameId AND UserId = 1;";
+                            WHERE GameId = @GameId AND UserId = @UserId;";
 
             await using (var cmd = new SqlCommand(query, conn))
             {
@@ -148,6 +151,7 @@ namespace What2Play_Data.Repository
                 cmd.Parameters.AddWithValue("@Type", game.TypeId);
                 cmd.Parameters.AddWithValue("@SourceId", game.SourceId);
                 cmd.Parameters.AddWithValue("@Played", game.Played);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
 
                 int rows = await cmd.ExecuteNonQueryAsync();
 
@@ -158,18 +162,19 @@ namespace What2Play_Data.Repository
             }
         }
 
-        public async Task<string> DeleteGame(int gameId)
+        public async Task<string> DeleteGame(int gameId, int? UserId)
         {
             await using var conn = new SqlConnection(_connectionstring);
             await conn.OpenAsync();
 
             string query = @"
                             DELETE FROM UserGame
-                            WHERE GameId = @GameId AND UserId = 1;";
+                            WHERE GameId = @GameId AND UserId = UserId;";
 
             await using (var cmd = new SqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@GameId", gameId);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
 
                 int rows = await cmd.ExecuteNonQueryAsync();
 

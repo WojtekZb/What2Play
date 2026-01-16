@@ -31,24 +31,33 @@ namespace What2Play_Presentation.Pages
             _getTypesService = new GetTypesService(getTypesRepo);
         }
 
-        public async Task OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
+            int? UserId = HttpContext.Session.GetInt32("UserId");
+            if (UserId == null)
+            {
+                return RedirectToPage("/_Login");
+            }
+
             var gameVMList = new List<GameVM>();
-            Games = await _GameService.GetGames();
+            Games = await _GameService.GetGames(UserId);
 
             foreach (GameDTO game in Games)
             {
                 GameVM gameVM = Mapper.DtoToVm(game);
                 gameVMList.Add(gameVM);
             }
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
-            await _GameService.DeleteGame(id);
+            int? userId = HttpContext.Session.GetInt32("UserId");
+            await _GameService.DeleteGame(id, userId);
 
             // Reload the game list after deletion
-            Games = await _GameService.GetGames();
+            Games = await _GameService.GetGames(userId);
 
             return Page(); // stay on the same page
         }

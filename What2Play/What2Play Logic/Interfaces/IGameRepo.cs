@@ -4,10 +4,10 @@ namespace What2Play_Logic.Interfaces
 {
     public interface IGameRepo
     {
-        Task<List<GameDTO>> GetGames();
-        Task<GameDTO> GetGameById(int id);
-        Task<string> AddGame(GameDTO game);
-        Task<string> UpdateGame(GameDTO game);
-        Task<string> DeleteGame(int gameId);
+        Task<List<GameDTO>> GetGames(int? UserId);
+        Task<GameDTO> GetGameById(int id, int? UserId);
+        Task<string> AddGame(GameDTO game, int? UserId);
+        Task<string> UpdateGame(GameDTO game, int? UserId);
+        Task<string> DeleteGame(int gameId, int? UserId);
     }
 }

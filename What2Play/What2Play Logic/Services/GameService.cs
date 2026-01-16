@@ -14,18 +14,18 @@ namespace What2Play_Logic.Services
             _repo = repo;
         }
 
-        public Task<List<GameDTO>> GetGames()
+        public Task<List<GameDTO>> GetGames(int? UserId)
         {
-            return _repo.GetGames();
+            return _repo.GetGames(UserId);
         }
 
-        public Task<GameDTO> GetGameById(int id)
+        public Task<GameDTO> GetGameById(int id, int? UserId)
         {
-            return _repo.GetGameById(id);
+            return _repo.GetGameById(id, UserId);
         }
 
 
-        public async Task<string> AddGame(GameDTO game)
+        public async Task<string> AddGame(GameDTO game, int? UserId)
         {
             Game gameEntity = Mapper.DtoToEntity(game);            
             switch (gameEntity)
@@ -47,12 +47,12 @@ namespace What2Play_Logic.Services
 
             default:
                 var gameDto = Mapper.EntityToDto(gameEntity);
-                string result = await _repo.AddGame(gameDto);
+                string result = await _repo.AddGame(gameDto, UserId);
                 return result;
             }
         }
 
-        public async Task<string> UpdateGame(GameDTO game)
+        public async Task<string> UpdateGame(GameDTO game, int? UserId)
         {
             Game gameEntity = Mapper.DtoToEntity(game);
             switch (gameEntity)
@@ -74,14 +74,14 @@ namespace What2Play_Logic.Services
 
                 default:
                     var gameDto = Mapper.EntityToDto(gameEntity);
-                    string result = await _repo.UpdateGame(gameDto);
+                    string result = await _repo.UpdateGame(gameDto, UserId);
                     return result;
             }
         }
 
-        public async Task<string> DeleteGame(int gameId)
+        public async Task<string> DeleteGame(int gameId, int? UserId)
         {
-            string result = await _repo.DeleteGame(gameId);
+            string result = await _repo.DeleteGame(gameId, UserId);
             return result;
         }
     }

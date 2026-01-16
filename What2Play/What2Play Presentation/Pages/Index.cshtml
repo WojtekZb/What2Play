@@ -1,6 +1,9 @@
 ﻿@page
 @model What2Play_Presentation.Pages.HomeModel
-
+@if (HttpContext.Session.GetString("Role") == "Admin")
+{
+    <a asp-page="/UserToAdmin">User Management</a>
+}
 <h2>Games</h2>
 
 @if (Model.Games != null && Model.Games.Any())

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "What2Play Logic", "What2Pla
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "What2Play Data", "What2Play Data\What2Play Data.csproj", "{ECFC7DCF-0E02-4594-A589-903920A0E0CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "What2PlayLogic.UnitTests", "What2PlayLogic.UnitTests\What2PlayLogic.UnitTests.csproj", "{42C5F64F-AE60-4C50-9498-046B779C376B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "What2PlayLogic.UnitTests", "What2PlayLogic.UnitTests\What2PlayLogic.UnitTests.csproj", "{42C5F64F-AE60-4C50-9498-046B779C376B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
